@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bill Splitter</title>
+<style>
+body {
+    font-family: Arial;
+    background: #f2f2f2;
+}
+.container {
+    width: 350px;
+    margin: 50px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+}
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+button {
+    background: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#error { color: red; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Bill Splitter</h2>
+
+<label>Bill amount (Rs.)</label>
+<input type="number" id="bill" placeholder="Enter bill">
+
+<label>Tip</label>
+<select id="tip">
+<option value="0">0%</option>
+<option value="5">5%</option>
+<option value="10">10%</option>
+<option value="15">15%</option>
+</select>
+
+<label>Number of people</label>
+<input type="number" id="people" value="1">
+
+<button onclick="calculate()">Calculate</button>
+
+<p id="error"></p>
+<div id="result"></div>
+</div>
+
+<script>
+function calculate() {
+    let bill = parseFloat(document.getElementById("bill").value);
+    let tip = parseFloat(document.getElementById("tip").value);
+    let people = parseInt(document.getElementById("people").value);
+
+    let error = document.getElementById("error");
+    let result = document.getElementById("result");
+
+    error.innerHTML = "";
+    result.innerHTML = "";
+
+    if (isNaN(bill) || bill <= 0 ||
+        isNaN(people) || people < 1) {
+        error.innerHTML =
+        "Please enter a valid bill and number of people.";
+        return;
+    }
+
+    let tipAmount = bill * tip / 100;
+    let total = bill + tipAmount;
+    let each = total / people;
+
+    result.innerHTML =
+    "Tip amount: Rs. " + tipAmount.toFixed(2) + "<br><br>" +
+    "Total bill: Rs. " + total.toFixed(2) + "<br><br>" +
+    "Each person pays: Rs. " + each.toFixed(2);
+}
+</script>
+
+</body>
+</html>

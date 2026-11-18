@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Registration Form</title>
+<style>
+body {
+    font-family: Arial;
+    background: #eee;
+}
+.container {
+    width: 350px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+}
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+.error {
+    color: red;
+    font-size: 13px;
+}
+.success {
+    color: green;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Create Account</h2>
+
+<form id="form">
+
+<label>Full name</label>
+<input type="text" id="name">
+<div id="nameError" class="error"></div>
+
+<label>Email</label>
+<input type="text" id="email">
+<div id="emailError" class="error"></div>
+
+<label>Password</label>
+<input type="password" id="password">
+<div id="passError" class="error"></div>
+
+<label>Confirm password</label>
+<input type="password" id="confirm">
+<div id="confirmError" class="error"></div>
+
+<button type="submit">Register</button>
+
+<p id="message"></p>
+</form>
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit",
+function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let pass = document.getElementById("password").value;
+    let confirm = document.getElementById("confirm").value;
+
+    let valid = true;
+
+    document.querySelectorAll(".error").forEach(el => {
+        el.innerHTML = "";
+    });
+
+    document.getElementById("message").innerHTML = "";
+
+    if (name.length < 3) {
+        document.getElementById("nameError").innerHTML =
+        "Name must be at least 3 characters.";
+        valid = false;
+    }
+
+    let pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!pattern.test(email)) {
+        document.getElementById("emailError").innerHTML =
+        "Enter a valid email, e.g. name@example.com";
+        valid = false;
+    }
+
+    if (pass.length < 6 || !/[0-9]/.test(pass)) {
+        document.getElementById("passError").innerHTML =
+        "Use 6+ characters including a number.";
+        valid = false;
+    }
+
+    if (pass !== confirm) {
+        document.getElementById("confirmError").innerHTML =
+        "Passwords do not match.";
+        valid = false;
+    }
+
+    if (valid) {
+        document.getElementById("message").className = "success";
+        document.getElementById("message").innerHTML =
+        "Registration successful! Welcome, " + name + ".";
+    }
+});
+</script>
+
+</body>
+</html>

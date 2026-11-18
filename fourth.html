@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product Catalogue</title>
+<style>
+body {
+    font-family: Arial;
+    background: #eee;
+}
+.container {
+    width: 600px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+.controls {
+    display: flex;
+    gap: 10px;
+}
+input, select {
+    padding: 10px;
+}
+input {
+    flex: 1;
+}
+#products {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.card {
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+.price {
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Product Catalogue</h2>
+
+<div class="controls">
+<input type="text" id="search" placeholder="Search by name...">
+
+<select id="category">
+<option value="All">All categories</option>
+<option value="Electronics">Electronics</option>
+<option value="Stationery">Stationery</option>
+<option value="Fashion">Fashion</option>
+</select>
+</div>
+
+<p id="count"></p>
+<div id="products"></div>
+</div>
+
+<script>
+let items = [
+{name:"Wireless Mouse", category:"Electronics", price:799},
+{name:"Bluetooth Speaker", category:"Electronics", price:1999},
+{name:"USB Cable", category:"Electronics", price:199},
+{name:"Notebook Pack", category:"Stationery", price:249},
+{name:"Gel Pen Set", category:"Stationery", price:99},
+{name:"Running Shoes", category:"Fashion", price:2499},
+{name:"Cotton T-Shirt", category:"Fashion", price:599},
+{name:"Backpack", category:"Fashion", price:1299}
+];
+
+function display() {
+    let search = document.getElementById("search").value.toLowerCase();
+    let category = document.getElementById("category").value;
+
+    let filtered = items.filter(function(p) {
+        return p.name.toLowerCase().includes(search) &&
+        (category === "All" || p.category === category);
+    });
+
+    document.getElementById("count").innerText =
+    "Showing " + filtered.length + " of " + items.length + " products";
+
+    let output = document.getElementById("products");
+
+    if (filtered.length === 0) {
+        output.innerHTML = "No products found.";
+        return;
+    }
+
+    output.innerHTML = filtered.map(function(p) {
+        return `
+        <div class="card">
+            <h3>${p.name}</h3>
+            <p>${p.category}</p>
+            <p class="price">Rs. ${p.price}</p>
+        </div>`;
+    }).join("");
+}
+
+document.getElementById("search").addEventListener("input", display);
+document.getElementById("category").addEventListener("change", display);
+
+display();
+</script>
+
+</body>
+</html>
